@@ -1,4 +1,4 @@
-package com.xeiot.open.common;
+package io.wedocs.open.common;
 
 /**
  * This runtime exception is thrown by JBake API to indicate an processing

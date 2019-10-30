@@ -1,4 +1,4 @@
-package com.xeiot.open;
+package io.wedocs.open;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;

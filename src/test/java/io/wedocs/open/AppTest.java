@@ -1,4 +1,4 @@
-package com.xeiot.open;
+package io.wedocs.open;
 
 import org.junit.Test;
 import org.slf4j.Logger;
