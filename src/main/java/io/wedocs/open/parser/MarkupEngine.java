@@ -24,7 +24,7 @@ import java.util.Map;
  *
  * @author Cédric Champeau
  */
-public abstract class MarkupEngine implements ParserEngine {
+public class MarkupEngine implements ParserEngine {
     private static final Logger LOGGER = LoggerFactory.getLogger(MarkupEngine.class);
     private static final String UTF_8_BOM = "\uFEFF";
 
