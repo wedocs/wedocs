@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.File;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -42,8 +43,8 @@ public class DefaultJBakeConfiguration {
 
     @Setter
     @Getter
-    @Value("${content.folder}")
-    private String contentFolder;
+    //@Value("${content.folder}")
+    private File contentFolder = new File(new File(System.getProperty("user.dir")), "docs");
 
     public static final String DEFAULT_STATUS = "default.status";
     public static final String DEFAULT_TYPE = "default.type";

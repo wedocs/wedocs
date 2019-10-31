@@ -45,7 +45,8 @@ public class Crawler {
      * @param path Folder to start from
      */
     public void crawl(File path) {
-        File[] contents = path.listFiles(FileUtil.getFileFilter());
+        // File[] contents = path.listFiles(FileUtil.getFileFilter());
+        File[] contents = path.listFiles();
         if (contents != null) {
             Arrays.sort(contents);
             for (File sourceFile : contents) {
@@ -76,6 +77,8 @@ public class Crawler {
     }
 
     private String buildURI(final File sourceFile) {
+        LOGGER.info("sourceFile {}", FileUtil.asPath(sourceFile));
+        LOGGER.info("getContentFolder {}", FileUtil.asPath(configuration.getContentFolder()));
         String uri = FileUtil.asPath(sourceFile).replace(FileUtil.asPath(configuration.getContentFolder()), "");
 
         if (useNoExtensionUri(uri)) {
@@ -130,7 +133,6 @@ public class Crawler {
         try {
             Page fileContents = parser.processFile(sourceFile);
             // 解析完毕 根据模板生成文件
-            LOGGER.info("sha1 {}", sha1);
             LOGGER.info("uri {}", uri);
             LOGGER.info("getCanonicalPath {}", sourceFile.getCanonicalPath());
             //Template template = configurer.getTemplate("post.ftl");

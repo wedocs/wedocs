@@ -50,7 +50,7 @@ public class Oven {
         LOGGER.info("Baking has started...");
 
         // process source content
-        crawler.crawl(new File(System.getProperty("user.dir")));
+        crawler.crawl(new File(System.getProperty("user.dir"),"docs"));
 
         // copy assets
         //asset.copy();
