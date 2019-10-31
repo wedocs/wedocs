@@ -1,11 +1,15 @@
 package io.wedocs.open.app;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import io.wedocs.open.config.DefaultJBakeConfiguration;
 import io.wedocs.open.model.Page;
 import io.wedocs.open.utils.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -21,18 +25,15 @@ public class Crawler {
 
     final Logger LOGGER = LoggerFactory.getLogger(Crawler.class);
 
-    private DefaultJBakeConfiguration config;
+    @Resource
     private Parser parser;
 
     @Resource
     private DefaultJBakeConfiguration configuration;
 
-    /**
-     * Creates new instance of Crawler.
-     */
-    public Crawler() {
-        this.parser = new Parser(configuration);
-    }
+    //发送邮件的模板引擎
+    @Autowired
+    private Configuration configurer;
 
     /**
      * Crawl all files and folders looking for content.
@@ -40,6 +41,7 @@ public class Crawler {
      * @param path Folder to start from
      */
     public void crawl(File path) {
+        LOGGER.info("{}", FileUtil.getFileFilter());
         File[] contents = path.listFiles(FileUtil.getFileFilter());
         if (contents != null) {
             Arrays.sort(contents);
@@ -71,7 +73,7 @@ public class Crawler {
     }
 
     private String buildURI(final File sourceFile) {
-        String uri = FileUtil.asPath(sourceFile).replace(FileUtil.asPath(config.getContentFolder()), "");
+        String uri = FileUtil.asPath(sourceFile).replace(FileUtil.asPath(configuration.getContentFolder()), "");
         // strip off leading / to enable generating non-root based sites
         if (uri.startsWith(FileUtil.URI_SEPARATOR_CHAR)) {
             uri = uri.substring(1, uri.length());
@@ -84,6 +86,9 @@ public class Crawler {
         try {
             Page fileContents = parser.processFile(sourceFile);
             // 解析完毕 根据模板生成文件
+            Template template = configurer.getTemplate("post.ftl");
+            String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, fileContents);
+            LOGGER.info("{}", html);
         } catch (Exception ex) {
             throw new RuntimeException("Failed crawling file: " + sourceFile.getPath() + " " + ex.getMessage(), ex);
         }

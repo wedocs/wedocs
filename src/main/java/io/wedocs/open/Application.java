@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.annotation.Resource;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.List;
@@ -26,6 +27,8 @@ public class Application implements CommandLineRunner {
     private final String USAGE_PREFIX = "Usage: jbake";
     private final String ALT_USAGE_PREFIX = "   or  jbake";
 
+    @Resource
+    private Oven oven;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -40,7 +43,6 @@ public class Application implements CommandLineRunner {
             return;
         }
         if (res.isBuild()) {
-            final Oven oven = new Oven();
             oven.build();
             final List<Throwable> errors = oven.getErrors();
             if (!errors.isEmpty()) {

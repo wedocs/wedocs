@@ -2,12 +2,12 @@ package io.wedocs.open.app;
 
 import io.wedocs.open.config.DefaultJBakeConfiguration;
 import io.wedocs.open.model.Page;
-import io.wedocs.open.parser.Engines;
-import io.wedocs.open.parser.ParserEngine;
-import io.wedocs.open.utils.FileUtil;
+import io.wedocs.open.parser.MarkdownEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.File;
 
 /**
@@ -15,19 +15,15 @@ import java.io.File;
  *
  * @author Jonathan Bullock <a href="mailto:jonbullock@gmail.com">jonbullock@gmail.com</a>
  */
+@Component
 public class Parser {
     private static final Logger LOGGER = LoggerFactory.getLogger(Parser.class);
 
+    @Resource
     private DefaultJBakeConfiguration config;
 
-    /**
-     * Creates a new instance of Parser.
-     *
-     * @param config Project configuration
-     */
-    public Parser(DefaultJBakeConfiguration config) {
-        this.config = config;
-    }
+    @Resource
+    private MarkdownEngine markdownEngine;
 
     /**
      * Process the file by parsing the contents.
@@ -36,11 +32,11 @@ public class Parser {
      * @return The contents of the file
      */
     public Page processFile(File file) {
-        ParserEngine engine = Engines.get(FileUtil.fileExt(file));
-        if (engine == null) {
-            LOGGER.error("Unable to find suitable markup engine for {}", file);
-            return null;
-        }
-        return engine.parse(config, file);
+//        ParserEngine engine = Engines.get(FileUtil.fileExt(file));
+//        if (engine == null) {
+//            LOGGER.error("Unable to find suitable markup engine for {}", file);
+//            return null;
+//        }
+        return markdownEngine.parse(config, file);
     }
 }

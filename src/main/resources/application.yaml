@@ -1,7 +1,6 @@
 spring:
   application:
     name: wedocs
-
 archive:
   file: archive.html
 asset:

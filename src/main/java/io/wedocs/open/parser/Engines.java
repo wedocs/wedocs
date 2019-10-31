@@ -3,9 +3,6 @@ package io.wedocs.open.parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 import java.util.*;
 
 /**
@@ -20,7 +17,7 @@ import java.util.*;
  * org.jbake.parser.AsciidoctorEngine=ad,adoc,asciidoc<br>
  * org.jbake.parser.MarkdownEngine=md<br>
  * </code>
- * <p>where the key is the class of the engine (must extend {@link MarkupEngine} and have a no-arg
+ * <p>where the key is the class of the engine (must extend {@link MarkdownEngine} and have a no-arg
  * constructor and the value is a comma-separated list of file extensions that this engine is capable of proceeding.</p>
  *
  * <p>Markup engines are singletons, so are typically used to initialize the underlying renderning engines. They

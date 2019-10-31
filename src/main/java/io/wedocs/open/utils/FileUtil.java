@@ -1,12 +1,9 @@
 package io.wedocs.open.utils;
 
-import io.wedocs.open.config.DefaultJBakeConfiguration;
 import io.wedocs.open.parser.Engines;
 
 import java.io.*;
 import java.net.URLDecoder;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.MessageDigest;
 
 /**
@@ -25,13 +22,11 @@ public class FileUtil {
      */
     public static FileFilter getFileFilter() {
         return new FileFilter() {
-
             @Override
             public boolean accept(File pathname) {
                 //Accept if input  is a non-hidden file with registered extension
                 //or if a non-hidden and not-ignored directory
-                return !pathname.isHidden() && (pathname.isFile()
-                    && Engines.getRecognizedExtensions().contains(fileExt(pathname))) || (directoryOnlyIfNotIgnored(pathname));
+                return !pathname.isHidden() && (pathname.isFile());
             }
         };
     }
@@ -49,33 +44,12 @@ public class FileUtil {
                 //Accept if input  is a non-hidden file with NOT-registered extension
                 //or if a non-hidden and not-ignored directory
                 return !pathname.isHidden() && (pathname.isFile()
-                    //extension should not be from registered content extensions
-                    && !Engines.getRecognizedExtensions().contains(fileExt(pathname)))
-                    || (directoryOnlyIfNotIgnored(pathname));
+                        //extension should not be from registered content extensions
+                        && !Engines.getRecognizedExtensions().contains(fileExt(pathname)));
             }
         };
     }
 
-    /**
-     * Ignores directory (and children) if it contains a file named ".jbakeignore".
-     *
-     * @param file {@link File}
-     * @return {@link Boolean} true/false
-     */
-    public static boolean directoryOnlyIfNotIgnored(File file) {
-        boolean accept = false;
-
-        FilenameFilter ignoreFile = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.equalsIgnoreCase(".jbakeignore");
-            }
-        };
-
-        accept = file.isDirectory() && (file.listFiles(ignoreFile).length == 0);
-
-        return accept;
-    }
 
     public static boolean isExistingFolder(File f) {
         return null != f && f.exists() && f.isDirectory();
@@ -192,15 +166,15 @@ public class FileUtil {
     /**
      * Utility method to determine if a given file is located somewhere in the directory provided.
      *
-     * @param file used to check if it is located in the provided directory.
+     * @param file      used to check if it is located in the provided directory.
      * @param directory to validate whether or not the provided file resides.
      * @return true if the file is somewhere in the provided directory, false if it is not.
      * @throws IOException if the canonical path for either of the input directories can't be determined.
      */
     public static boolean isFileInDirectory(File file, File directory) throws IOException {
         return (file.exists()
-             && !file.isHidden()
-             && directory.isDirectory()
-             && file.getCanonicalPath().startsWith(directory.getCanonicalPath()));
+                && !file.isHidden()
+                && directory.isDirectory()
+                && file.getCanonicalPath().startsWith(directory.getCanonicalPath()));
     }
 }

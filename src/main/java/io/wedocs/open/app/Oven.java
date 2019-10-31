@@ -17,7 +17,7 @@ import java.util.*;
  * @author Jonathan Bullock <a href="mailto:jonbullock@gmail.com">jonbullock@gmail.com</a>
  */
 @Component
-public class Oven implements InitializingBean {
+public class Oven {
 
     final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
@@ -27,28 +27,30 @@ public class Oven implements InitializingBean {
     @Resource
     private DefaultJBakeConfiguration configuration;
 
+    @Resource
+    private Crawler crawler;
+
     /**
      * Checks source path contains required sub-folders (i.e. templates) and setups up variables for them.
      * Creates destination folder if it does not exist.
      *
      * @throws JBakeException If template or contents folder don't exist
      */
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        //JBakeConfigurationInspector inspector = new JBakeConfigurationInspector(configuration);
-        //inspector.inspect();
-    }
+//    @Override
+//    public void afterPropertiesSet() throws Exception {
+//        //JBakeConfigurationInspector inspector = new JBakeConfigurationInspector(configuration);
+//        //inspector.inspect();
+//    }
 
     /**
      * All the good stuff happens in here...
      */
     public void build() {
-        Crawler crawler = new Crawler();
         final long start = System.currentTimeMillis();
         LOGGER.info("Baking has started...");
 
         // process source content
-        crawler.crawl(new File(""));
+        crawler.crawl(new File("/Users/wangkun23/workspace/jmqtt/LoRaWAN-Specification_ZH_CN"));
 
         // copy assets
         //asset.copy();
