@@ -1,9 +1,13 @@
 package io.wedocs.open.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -23,18 +27,15 @@ public class DefaultJBakeConfiguration {
     private String DOCTYPE_TEMPLATE_PREFIX = "template.";
 
     public static final String ARCHIVE_FILE = "archive.file";
-    public static final String ASCIIDOCTOR_ATTRIBUTES = "asciidoctor.attributes";
-    public static final String ASCIIDOCTOR_ATTRIBUTES_EXPORT = "asciidoctor.attributes.export";
-    public static final String ASCIIDOCTOR_OPTION = "asciidoctor.option";
-    public static final String ASCIIDOCTOR_ATTRIBUTES_EXPORT_PREFIX = "asciidoctor.attributes.export.prefix";
     public static final String ASSET_FOLDER = "asset.folder";
     public static final String ASSET_IGNORE_HIDDEN = "asset.ignore";
     public static final String BUILD_TIMESTAMP = "build.timestamp";
-    public static final String CLEAR_CACHE = "db.clear.cache";
-    public static final String CONTENT_FOLDER = "content.folder";
-    public static final String DATE_FORMAT = "date.format";
-    public static final String DB_STORE = "db.store";
-    public static final String DB_PATH = "db.path";
+
+    @Setter
+    @Getter
+    @Value("${content.folder}")
+    private String contentFolder;
+
     public static final String DEFAULT_STATUS = "default.status";
     public static final String DEFAULT_TYPE = "default.type";
     public static final String DESTINATION_FOLDER = "destination.folder";
@@ -42,8 +43,17 @@ public class DefaultJBakeConfiguration {
     public static final String FEED_FILE = "feed.file";
     public static final String HEADER_SEPARATOR = "header.separator";
     public static final String INDEX_FILE = "index.file";
-    public static final String MARKDOWN_EXTENSIONS = "markdown.extensions";
-    public static final String OUTPUT_EXTENSION = "output.extension";
+
+    @Setter
+    @Getter
+    @Value("${markdown.extensions}")
+    private List<String> markdownExtensions;
+
+    @Setter
+    @Getter
+    @Value("${output.extension}")
+    private String outputExtension;
+
     public static final String PAGINATE_INDEX = "index.paginate";
     public static final String POSTS_PER_PAGE = "index.posts_per_page";
     public static final String RENDER_ARCHIVE = "render.archive";

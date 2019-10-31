@@ -1,7 +1,6 @@
 package io.wedocs.open.utils;
 
-
-import io.wedocs.open.config.JBakeConfiguration;
+import io.wedocs.open.config.DefaultJBakeConfiguration;
 import io.wedocs.open.parser.Engines;
 
 import java.io.*;
@@ -188,42 +187,6 @@ public class FileUtil {
         } else {
             return path;
         }
-    }
-
-    /**
-     * Given a file inside content it return
-     * the relative path to get to the root.
-     * <p>
-     * Example: /content and /content/tags/blog will return '../..'
-     *
-     * @param sourceFile the file to calculate relative path for
-     * @return
-     */
-    static public String getPathToRoot(JBakeConfiguration config, File rootPath, File sourceFile) {
-
-        Path r = Paths.get(rootPath.toURI());
-        Path s = Paths.get(sourceFile.getParentFile().toURI());
-        Path relativePath = s.relativize(r);
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(asPath(relativePath.toString()));
-
-        if (config.getUriWithoutExtension()) {
-            sb.append("/..");
-        }
-        if (sb.length() > 0) {  // added as calling logic assumes / at end.
-            sb.append("/");
-        }
-        return sb.toString();
-    }
-
-    static public String getUriPathToDestinationRoot(JBakeConfiguration config, File sourceFile) {
-        return getPathToRoot(config, config.getDestinationFolder(), sourceFile);
-    }
-
-    static public String getUriPathToContentRoot(JBakeConfiguration config, File sourceFile) {
-        return getPathToRoot(config, config.getContentFolder(), sourceFile);
     }
 
     /**

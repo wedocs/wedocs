@@ -17,8 +17,8 @@ public class LaunchOptions {
     @Argument(index = 1, usage = "destination folder for output, if not supplied will default to a folder called \"output\" in the current directory", metaVar = "<destination>")
     private String destination;
 
-    @Option(name = "-b", aliases = {"--bake"}, usage = "performs a bake")
-    private boolean bake;
+    @Option(name = "-b", aliases = {"--build"}, usage = "performs a bake")
+    private boolean build;
 
     @Option(name = "-i", aliases = {"--init"}, usage = "initialises required folder structure with default templates (defaults to current directory if <value> is not supplied)")
     private boolean init;
@@ -68,7 +68,7 @@ public class LaunchOptions {
     }
 
     public boolean isHelpNeeded() {
-        return helpNeeded || !(isBake() || isRunServer() || isInit() || source != null || destination != null);
+        return helpNeeded || !(isBuild() || isRunServer() || isInit() || source != null || destination != null);
     }
 
     public boolean isRunServer() {
@@ -83,7 +83,7 @@ public class LaunchOptions {
         return clearCache;
     }
 
-    public boolean isBake() {
-        return bake || (source != null && destination != null);
+    public boolean isBuild() {
+        return build || (source != null && destination != null);
     }
 }

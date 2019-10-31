@@ -2,7 +2,6 @@ package io.wedocs.open.app;
 
 import io.wedocs.open.common.JBakeException;
 import io.wedocs.open.config.DefaultJBakeConfiguration;
-import io.wedocs.open.config.JBakeConfigurationInspector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -36,36 +35,20 @@ public class Oven implements InitializingBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        JBakeConfigurationInspector inspector = new JBakeConfigurationInspector(configuration);
-        inspector.inspect();
-    }
-
-    /**
-     * Responsible for incremental baking, typically a single file at a time.
-     *
-     * @param fileToBake The file to bake
-     */
-    public void bake(File fileToBake) {
-//        Asset asset = utensils.getAsset();
-//        if (asset.isAssetFile(fileToBake)) {
-//            LOGGER.info("Baking a change to an asset [" + fileToBake.getPath() + "]");
-//            asset.copySingleFile(fileToBake);
-//        } else {
-//            LOGGER.info("Playing it safe and running a full bake...");
-//            bake();
-//        }
+        //JBakeConfigurationInspector inspector = new JBakeConfigurationInspector(configuration);
+        //inspector.inspect();
     }
 
     /**
      * All the good stuff happens in here...
      */
-    public void bake() {
+    public void build() {
         Crawler crawler = new Crawler();
         final long start = System.currentTimeMillis();
         LOGGER.info("Baking has started...");
 
         // process source content
-        crawler.crawl();
+        crawler.crawl(new File(""));
 
         // copy assets
         //asset.copy();

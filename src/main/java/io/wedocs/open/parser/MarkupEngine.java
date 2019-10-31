@@ -1,6 +1,6 @@
 package io.wedocs.open.parser;
 
-import io.wedocs.open.config.JBakeConfiguration;
+import io.wedocs.open.config.DefaultJBakeConfiguration;
 import io.wedocs.open.model.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public abstract class MarkupEngine implements ParserEngine {
      * @return a map containing all infos. Returning null indicates an error, even if an exception would be better.
      */
     @Override
-    public Page parse(JBakeConfiguration config, File file) {
+    public Page parse(DefaultJBakeConfiguration config, File file) {
         String fileContent;
         try (InputStream is = new FileInputStream(file)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
