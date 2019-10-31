@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -33,7 +32,6 @@ public class Crawler {
     @Resource
     private DefaultJBakeConfiguration configuration;
 
-    //发送邮件的模板引擎
     @Autowired
     private Configuration configurer;
 
@@ -75,10 +73,12 @@ public class Crawler {
     }
 
     private String buildURI(final File sourceFile) {
+        LOGGER.info("FileUtil.asPath(sourceFile) {}", FileUtil.asPath(sourceFile));
+        LOGGER.info("FileUtil.asPath(configuration.getContentFolder() {}", FileUtil.asPath(configuration.getContentFolder()));
         String uri = FileUtil.asPath(sourceFile).replace(FileUtil.asPath(configuration.getContentFolder()), "");
         // strip off leading / to enable generating non-root based sites
         if (uri.startsWith(FileUtil.URI_SEPARATOR_CHAR)) {
-            uri = uri.substring(1, uri.length());
+            uri = uri.substring(1);
         }
         return uri;
     }
@@ -89,11 +89,11 @@ public class Crawler {
             Page fileContents = parser.processFile(sourceFile);
             // 解析完毕 根据模板生成文件
             LOGGER.info("uri {}", uri);
-            Template template = configurer.getTemplate("post.ftl");
-            Writer fileWriter = new FileWriter(new File(uri));
-            template.process(fileContents, fileWriter);
-            fileWriter.flush();
-            fileWriter.close();
+            //Template template = configurer.getTemplate("post.ftl");
+            //Writer fileWriter = new FileWriter(new File(uri));
+            //template.process(fileContents, fileWriter);
+            //fileWriter.flush();
+            //fileWriter.close();
         } catch (Exception ex) {
             throw new RuntimeException("Failed crawling file: " + sourceFile.getPath() + " " + ex.getMessage(), ex);
         }
