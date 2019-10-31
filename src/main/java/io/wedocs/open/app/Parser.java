@@ -1,6 +1,7 @@
 package io.wedocs.open.app;
 
-import io.wedocs.open.config.JBakeConfiguration;
+import io.wedocs.open.config.DefaultJBakeConfiguration;
+import io.wedocs.open.model.Page;
 import io.wedocs.open.parser.Engines;
 import io.wedocs.open.parser.ParserEngine;
 import io.wedocs.open.utils.FileUtil;
@@ -8,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Map;
 
 /**
  * Parses a File for content.
@@ -18,14 +18,14 @@ import java.util.Map;
 public class Parser {
     private static final Logger LOGGER = LoggerFactory.getLogger(Parser.class);
 
-    private JBakeConfiguration config;
+    private DefaultJBakeConfiguration config;
 
     /**
      * Creates a new instance of Parser.
      *
      * @param config Project configuration
      */
-    public Parser(JBakeConfiguration config) {
+    public Parser(DefaultJBakeConfiguration config) {
         this.config = config;
     }
 
@@ -35,7 +35,7 @@ public class Parser {
      * @param file File input for parsing
      * @return The contents of the file
      */
-    public Map<String, Object> processFile(File file) {
+    public Page processFile(File file) {
         ParserEngine engine = Engines.get(FileUtil.fileExt(file));
         if (engine == null) {
             LOGGER.error("Unable to find suitable markup engine for {}", file);

@@ -2,4 +2,73 @@ spring:
   application:
     name: wedocs
 
+archive:
+  file: archive.html
+asset:
+  folder: assets
+  ignore: false
+content:
+  folder: content
+date:
+  format: yyyy-MM-dd
+default:
+  status: draft
+  type: ''
+destination:
+  folder: output
+draft:
+  suffix: -draft
+feed:
+  file: feed.xml
+img:
+  path:
+    prepend:
+      host: true
+    update: false
+index:
+  file: index.html
+  paginate: false
+  posts_per_page: 3
+markdown:
+  extensions: HARDWRAPS,AUTOLINKS,FENCED_CODE_BLOCKS,DEFINITIONS
+  maxParsingTimeInMillis: 2000
+output:
+  extension: .html
+render:
+  archive: true
+  encoding: UTF-8
+  feed: true
+  index: true
+  sitemap: false
+  tags: true
+  tagsindex: false
+server:
+  port: 8820
+tag:
+  path: tags
+  sanitize: 'false '
+template:
+  archive:
+    file: archive.ftl
+  encoding: UTF-8
+  feed:
+    file: feed.ftl
+  folder: templates
+  masterindex:
+    file: index.ftl
+  page:
+    file: page.ftl
+  post:
+    file: post.ftl
+  sitemap:
+    file: sitemap.ftl
+  tag:
+    file: tags.ftl
+  tagsindex:
+    file: tags-index.ftl
+thymeleaf:
+  locale: en_US
+uri:
+  noExtension: false
+  noExtension.prefix: ''
 

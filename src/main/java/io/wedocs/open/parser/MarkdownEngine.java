@@ -43,8 +43,8 @@ public class MarkdownEngine extends MarkupEngine {
 
         Parser parser = Parser.builder(options).build();
         HtmlRenderer renderer = HtmlRenderer.builder(options).build();
+        Document document = parser.parse(context.getFileContent());
 
-        Document document = parser.parse(context.getBody());
         context.setBody(renderer.render(document));
     }
 

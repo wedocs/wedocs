@@ -11,9 +11,9 @@ public class JBakeConfigurationInspector {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JBakeConfigurationInspector.class);
 
-    private final JBakeConfiguration configuration;
+    private final DefaultJBakeConfiguration configuration;
 
-    public JBakeConfigurationInspector(JBakeConfiguration configuration) {
+    public JBakeConfigurationInspector(DefaultJBakeConfiguration configuration) {
         this.configuration = configuration;
     }
 

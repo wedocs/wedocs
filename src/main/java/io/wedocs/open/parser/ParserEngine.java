@@ -1,30 +1,22 @@
 package io.wedocs.open.parser;
 
-import io.wedocs.open.config.JBakeConfiguration;
-import org.apache.commons.configuration.Configuration;
+import io.wedocs.open.config.DefaultJBakeConfiguration;
+import io.wedocs.open.model.Page;
 
 import java.io.File;
-import java.util.Map;
 
+/**
+ * Created by wangkun23 on 2019/10/31.
+ */
 public interface ParserEngine {
 
     /**
      * Parse a given file and transform to a model representation used by {@link MarkdownEngine} implementations
      * to render the file content.
+     *
      * @param config The project configuration
-     * @param file The file to be parsed
+     * @param file   The file to be parsed
      * @return A model representation of the given file
      */
-    Map<String, Object> parse(JBakeConfiguration config, File file);
-
-    /**
-     * @param config The project configuration
-     * @param file The file to be parsed
-     * @param contentPath unknown
-     * @return A model representation of the given file
-     * @deprecated use {@link #parse(JBakeConfiguration, File)} instead
-     */
-    @Deprecated
-    Map<String, Object> parse(Configuration config, File file, String contentPath);
-
+    Page parse(DefaultJBakeConfiguration config, File file);
 }

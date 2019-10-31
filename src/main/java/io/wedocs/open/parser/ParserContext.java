@@ -1,34 +1,34 @@
 package io.wedocs.open.parser;
 
-
 import io.wedocs.open.config.JBakeConfiguration;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
-import java.util.List;
+
 
 public class ParserContext {
+
+    @Getter
     private final File file;
-    private final List<String> fileLines;
+
+    @Getter
+    private final String fileContent;
+
+    @Setter
+    @Getter
+    private String body;
+
+    @Getter
     private final JBakeConfiguration config;
 
     public ParserContext(
             File file,
-            List<String> fileLines,
+            String fileContent,
             JBakeConfiguration config) {
         this.file = file;
-        this.fileLines = fileLines;
+        this.fileContent = fileContent;
         this.config = config;
     }
 
-    public File getFile() {
-        return file;
-    }
-
-    public List<String> getFileLines() {
-        return fileLines;
-    }
-
-    public JBakeConfiguration getConfig() {
-        return config;
-    }
 }

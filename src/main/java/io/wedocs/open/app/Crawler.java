@@ -1,14 +1,15 @@
 package io.wedocs.open.app;
 
-import io.wedocs.open.config.JBakeConfiguration;
-import io.wedocs.open.config.JBakeConfigurationFactory;
+import io.wedocs.open.config.DefaultJBakeConfiguration;
+import io.wedocs.open.model.Page;
 import io.wedocs.open.utils.FileUtil;
 import io.wedocs.open.utils.HtmlUtil;
-import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -21,37 +22,21 @@ import java.util.Map;
  *
  * @author Jonathan Bullock <a href="mailto:jonbullock@gmail.com">jonbullock@gmail.com</a>
  */
+@Component
 public class Crawler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Crawler.class);
-    private JBakeConfiguration config;
+    final Logger LOGGER = LoggerFactory.getLogger(Crawler.class);
+
+    private DefaultJBakeConfiguration config;
     private Parser parser;
 
-    /**
-     * @param source Base directory where content directory is located
-     * @param config Project configuration
-     * @deprecated Use {@link #Crawler(JBakeConfiguration)} instead.
-     * <p>
-     * Creates new instance of Crawler.
-     */
-    @Deprecated
-    public Crawler(File source, CompositeConfiguration config) {
-        this.config = new JBakeConfigurationFactory().createDefaultJbakeConfiguration(source, config);
-        this.parser = new Parser(this.config);
-    }
-
+    @Resource
+    private DefaultJBakeConfiguration configuration;
     /**
      * Creates new instance of Crawler.
-     *
-     * @param config Project configuration
      */
-    public Crawler(JBakeConfiguration config) {
-        this.config = config;
-        this.parser = new Parser(config);
-    }
-
-    public void crawl() {
-        crawl(config.getContentFolder());
+    public Crawler() {
+        this.parser = new Parser(configuration);
     }
 
     /**
@@ -146,7 +131,7 @@ public class Crawler {
 
     private void crawlSourceFile(final File sourceFile, final String sha1, final String uri) {
         try {
-            Map<String, Object> fileContents = parser.processFile(sourceFile);
+            Page fileContents = parser.processFile(sourceFile);
 
             if (fileContents != null) {
                 fileContents.put(Attributes.ROOTPATH, getPathToRoot(sourceFile));
@@ -175,38 +160,9 @@ public class Crawler {
 
     public abstract static class Attributes {
 
-        public static final String DATE = "date";
-        public static final String STATUS = "status";
-        public static final String TYPE = "type";
-        public static final String TITLE = "title";
-        public static final String URI = "uri";
-        public static final String FILE = "file";
-        public static final String TAGS = "tags";
-        public static final String TAG = "tag";
-        public static final String ROOTPATH = "rootpath";
-        public static final String ID = "id";
-        public static final String NO_EXTENSION_URI = "noExtensionUri";
-        public static final String ALLTAGS = "alltags";
-        public static final String PUBLISHED_DATE = "published_date";
-        public static final String BODY = "body";
-        public static final String DB = "db";
+
 
         private Attributes() {
         }
-
-        /**
-         * Possible values of the {@link Attributes#STATUS} property
-         *
-         * @author ndx
-         */
-        public abstract static class Status {
-            public static final String PUBLISHED_DATE = "published-date";
-            public static final String PUBLISHED = "published";
-            public static final String DRAFT = "draft";
-
-            private Status() {
-            }
-        }
-
     }
 }

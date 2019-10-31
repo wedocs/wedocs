@@ -1,32 +1,24 @@
 package io.wedocs.open.parser;
 
-import io.wedocs.open.app.Crawler;
-import io.wedocs.open.config.DefaultJBakeConfiguration;
 import io.wedocs.open.config.JBakeConfiguration;
-import org.apache.commons.configuration.CompositeConfiguration;
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.io.IOUtils;
+import io.wedocs.open.model.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.FileCopyUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 
 /**
  * Base class for markup engine wrappers. A markup engine is responsible for rendering
- * markup in a source file and exporting the result into the {@link ParserContext#getDocumentModel() contents} map.
  * <p>
  * This specific engine does nothing, meaning that the body is rendered as raw contents.
  *
  * @author Cédric Champeau
  */
-public class MarkupEngine implements ParserEngine {
+public abstract class MarkupEngine implements ParserEngine {
     private static final Logger LOGGER = LoggerFactory.getLogger(MarkupEngine.class);
-    private static final String UTF_8_BOM = "\uFEFF";
 
     /**
      * Tests if this markup engine can process the document.
@@ -45,11 +37,7 @@ public class MarkupEngine implements ParserEngine {
      * @param context the parser context
      */
     public void processBody(final ParserContext context) {
-    }
 
-    @Override
-    public Map<String, Object> parse(Configuration config, File file, String contentPath) {
-        return parse(new DefaultJBakeConfiguration((CompositeConfiguration) config), file);
     }
 
     /**
@@ -59,15 +47,16 @@ public class MarkupEngine implements ParserEngine {
      * @return a map containing all infos. Returning null indicates an error, even if an exception would be better.
      */
     @Override
-    public Map<String, Object> parse(JBakeConfiguration config, File file) {
-        List<String> fileContents;
+    public Page parse(JBakeConfiguration config, File file) {
+        String fileContent;
         try (InputStream is = new FileInputStream(file)) {
-            fileContents = IOUtils.readLines(is, config.getRenderEncoding());
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            fileContent = FileCopyUtils.copyToString(reader);
         } catch (IOException e) {
             LOGGER.error("Error while opening file {}", file, e);
             return null;
         }
-        ParserContext context = new ParserContext(file, fileContents, config);
+        ParserContext context = new ParserContext(file, fileContent, config);
         // eventually process body using specific engine
         if (validate(context)) {
             processBody(context);
@@ -76,6 +65,6 @@ public class MarkupEngine implements ParserEngine {
             return null;
         }
         // TODO: post parsing plugins to hook in here?
-        return context.getDocumentModel();
+        return new Page(file, new HashMap<>(), context.getBody(), file.getPath());
     }
 }
