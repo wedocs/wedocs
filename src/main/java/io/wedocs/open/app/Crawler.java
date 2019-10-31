@@ -13,6 +13,8 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.Arrays;
 
 /**
@@ -86,9 +88,12 @@ public class Crawler {
         try {
             Page fileContents = parser.processFile(sourceFile);
             // 解析完毕 根据模板生成文件
+            LOGGER.info("uri {}", uri);
             Template template = configurer.getTemplate("post.ftl");
-            String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, fileContents);
-            LOGGER.info("{}", html);
+            Writer fileWriter = new FileWriter(new File(uri));
+            template.process(fileContents, fileWriter);
+            fileWriter.flush();
+            fileWriter.close();
         } catch (Exception ex) {
             throw new RuntimeException("Failed crawling file: " + sourceFile.getPath() + " " + ex.getMessage(), ex);
         }

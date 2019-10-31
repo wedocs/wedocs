@@ -26,7 +26,8 @@ public class FileUtil {
             public boolean accept(File pathname) {
                 //Accept if input  is a non-hidden file with registered extension
                 //or if a non-hidden and not-ignored directory
-                return !pathname.isHidden() && (pathname.isFile());
+                return !pathname.isHidden() && (pathname.isFile()
+                        && "md".contains(fileExt(pathname)));
             }
         };
     }
