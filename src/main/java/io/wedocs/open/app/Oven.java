@@ -50,7 +50,7 @@ public class Oven {
         LOGGER.info("Baking has started...");
 
         // process source content
-        crawler.crawl(new File("/Users/wangkun23/workspace/jmqtt/LoRaWAN-Specification_ZH_CN"));
+        crawler.crawl(new File(System.getProperty("user.dir")));
 
         // copy assets
         //asset.copy();

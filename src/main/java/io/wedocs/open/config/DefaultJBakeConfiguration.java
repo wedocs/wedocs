@@ -27,8 +27,17 @@ public class DefaultJBakeConfiguration {
     private String DOCTYPE_TEMPLATE_PREFIX = "template.";
 
     public static final String ARCHIVE_FILE = "archive.file";
-    public static final String ASSET_FOLDER = "asset.folder";
-    public static final String ASSET_IGNORE_HIDDEN = "asset.ignore";
+
+    @Setter
+    @Getter
+    @Value("${asset.folder}")
+    private String assetFolder;
+
+    @Setter
+    @Getter
+    @Value("${asset.ignore}")
+    private Boolean assetIgnoreHidden;
+
     public static final String BUILD_TIMESTAMP = "build.timestamp";
 
     @Setter
@@ -38,7 +47,12 @@ public class DefaultJBakeConfiguration {
 
     public static final String DEFAULT_STATUS = "default.status";
     public static final String DEFAULT_TYPE = "default.type";
-    public static final String DESTINATION_FOLDER = "destination.folder";
+
+    @Setter
+    @Getter
+    @Value("${destination.folder}")
+    private String destinationFolder;
+
     public static final String DRAFT_SUFFIX = "draft.suffix";
     public static final String FEED_FILE = "feed.file";
     public static final String HEADER_SEPARATOR = "header.separator";
@@ -71,8 +85,17 @@ public class DefaultJBakeConfiguration {
     public static final String TEMPLATE_FOLDER = "template.folder";
     public static final String TEMPLATE_ENCODING = "template.encoding";
     public static final String THYMELEAF_LOCALE = "thymeleaf.locale";
-    public static final String URI_NO_EXTENSION = "uri.noExtension";
-    public static final String URI_NO_EXTENSION_PREFIX = "uri.noExtension.prefix";
+
+    @Setter
+    @Getter
+    @Value("${uri.noExtension}")
+    private Boolean uriWithoutExtension;
+
+    @Setter
+    @Getter
+    @Value("${uri.noExtension.prefix}")
+    private String prefixForUriWithoutExtension;
+
     public static final String IMG_PATH_UPDATE = "img.path.update";
     public static final String IMG_PATH_PREPEND_HOST = "img.path.prepend.host";
     public static final String VERSION = "version";
