@@ -1,5 +1,6 @@
 package io.wedocs.open;
 
+import io.wedocs.open.app.JettyServer;
 import io.wedocs.open.app.Oven;
 import io.wedocs.open.common.JBakeException;
 import org.kohsuke.args4j.CmdLineException;
@@ -11,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.List;
@@ -56,6 +58,12 @@ public class Application implements CommandLineRunner {
                 }
                 throw new JBakeException(msg.toString(), errors.get(0));
             }
+        }
+
+        if (res.isRunServer()) {
+            // use the default destination folder
+            JettyServer jettyServer = new JettyServer();
+            jettyServer.run(new File(System.getProperty("user.dir"), "dist").getPath(), 3000);
         }
     }
 
