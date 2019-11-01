@@ -141,7 +141,7 @@ public class Crawler {
             // 解析完毕 根据模板生成文件
             LOGGER.info("uri {}", uri);
             LOGGER.info("getDestinationFolder {}", configuration.getDestinationFolder());
-            Template template = configurer.getTemplate("index.ftl");
+            Template template = configurer.getTemplate("post.ftl");
             File target = new File(configuration.getDestinationFolder(), uri);
             if (!target.exists()) {
                 target.getParentFile().mkdirs();
