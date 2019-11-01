@@ -1,32 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8"/>
-    <title><#if (content.title)??><#escape x as x?xml>${content.title}</#escape><#else>JBake</#if></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta name="keywords" content="">
-    <meta name="generator" content="JBake">
-
-    <!-- Le styles -->
-    <link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>bootstrap/materia/bootstrap.min.css" rel="stylesheet">
-    <link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/docs.css" rel="stylesheet">
-    <link href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>css/highlight.css" rel="stylesheet">
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="<#if (content.rootpath)??>${content.rootpath}<#else></#if>js/html5shiv.min.js"></script>
-    <![endif]-->
-
-    <!-- Fav and touch icons -->
-    <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">-->
-    <link rel="shortcut icon" href="<#if (content.rootpath)??>${content.rootpath}<#else></#if>favicon.ico">
-</head>
-<body>
 <nav id="topnavrow" class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="/">
@@ -52,4 +23,20 @@
         </div>
     </div>
 </nav>
-<div id="wrap">
+
+<!-- Fixed navbar -->
+<nav class="navbar navbar-expand-lg navbar-light py-0 navbar-components">
+    <div class="container">
+        <div id="navcollapse" class="collapse navbar-collapse my-0">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link px-3 mx-2" href="/">Home</a>
+                <a class="nav-item nav-link px-3 mx-2" href="/overview/">Getting started</a>
+                <a class="nav-item nav-link px-3 mx-2" href="/lora-gateway-bridge/">LoRa Gateway Bridge</a>
+                <a class="nav-item nav-link px-3 mx-2" href="/loraserver/">LoRa Server</a>
+                <a class="nav-item nav-link px-3 mx-2" href="/lora-app-server/">LoRa App Server</a>
+                <a class="nav-item nav-link px-3 mx-2" href="/lora-geo-server/">LoRa Geo Server</a>
+                <a class="nav-item nav-link px-3 mx-2" href="/lora-gateway-os/">LoRa Gateway OS</a>
+            </div>
+        </div>
+    </div>
+</nav>
