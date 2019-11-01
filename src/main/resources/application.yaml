@@ -7,14 +7,14 @@ asset:
   folder: assets
   ignore: false
 content:
-  folder: content
+  folder: docs
 date:
   format: yyyy-MM-dd
 default:
   status: draft
   type: ''
 destination:
-  folder: output
+  folder: dist
 draft:
   suffix: -draft
 feed:

@@ -2,14 +2,13 @@ package io.wedocs.open.config;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * The default implementation
@@ -43,8 +42,17 @@ public class DefaultJBakeConfiguration {
 
     @Setter
     @Getter
-    //@Value("${content.folder}")
-    private File contentFolder = new File(new File(System.getProperty("user.dir")), "docs");
+    @Value("${content.folder}")
+    private String contentFolderName;
+
+    /**
+     * 获取需要生成的目录
+     *
+     * @return
+     */
+    public File getContentFolder() {
+        return new File(new File(System.getProperty("user.dir")), contentFolderName);
+    }
 
     public static final String DEFAULT_STATUS = "default.status";
     public static final String DEFAULT_TYPE = "default.type";
@@ -52,7 +60,18 @@ public class DefaultJBakeConfiguration {
     @Setter
     @Getter
     @Value("${destination.folder}")
-    private String destinationFolder;
+    private String destinationFolderName;
+
+
+    /**
+     * 获取需要生成的目标目录
+     * <p>默认是output</p>
+     *
+     * @return
+     */
+    public File getDestinationFolder() {
+        return new File(new File(System.getProperty("user.dir")), destinationFolderName);
+    }
 
     public static final String DRAFT_SUFFIX = "draft.suffix";
     public static final String FEED_FILE = "feed.file";
@@ -100,8 +119,4 @@ public class DefaultJBakeConfiguration {
     public static final String IMG_PATH_UPDATE = "img.path.update";
     public static final String IMG_PATH_PREPEND_HOST = "img.path.prepend.host";
     public static final String VERSION = "version";
-
-
-    private Logger logger = LoggerFactory.getLogger(DefaultJBakeConfiguration.class);
-
 }

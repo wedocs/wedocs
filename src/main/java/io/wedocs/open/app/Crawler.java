@@ -95,7 +95,10 @@ public class Crawler {
         return uri;
     }
     // TODO: Refactor - parametrize the following two methods into one.
-    // commons-codec's URLCodec could be used when we add that dependency.
+
+    /**
+     * commons-codec's URLCodec could be used when we add that dependency.
+     */
     private String createUri(String uri) {
         try {
             return FileUtil.URI_SEPARATOR_CHAR
@@ -103,7 +106,8 @@ public class Crawler {
                     + URLEncoder.encode(FilenameUtils.getBaseName(uri), StandardCharsets.UTF_8.name())
                     + configuration.getOutputExtension();
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Missing UTF-8 encoding??", e); // Won't happen unless JDK is broken.
+            // Won't happen unless JDK is broken.
+            throw new RuntimeException("Missing UTF-8 encoding??", e);
         }
     }
 
@@ -116,7 +120,8 @@ public class Crawler {
                     + "index"
                     + configuration.getOutputExtension();
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Missing UTF-8 encoding??", e); // Won't happen unless JDK is broken.
+            // Won't happen unless JDK is broken.
+            throw new RuntimeException("Missing UTF-8 encoding??", e);
         }
     }
 
@@ -129,17 +134,23 @@ public class Crawler {
                 && (noExtensionUriPrefix.length() > 0)
                 && uri.startsWith(noExtensionUriPrefix);
     }
+
     private void crawlSourceFile(final File sourceFile, final String sha1, final String uri) {
         try {
             Page fileContents = parser.processFile(sourceFile);
             // 解析完毕 根据模板生成文件
             LOGGER.info("uri {}", uri);
-            LOGGER.info("getCanonicalPath {}", sourceFile.getCanonicalPath());
-            //Template template = configurer.getTemplate("post.ftl");
-            //Writer fileWriter = new FileWriter(new File(uri));
-            //template.process(fileContents, fileWriter);
-            //fileWriter.flush();
-            //fileWriter.close();
+            LOGGER.info("getDestinationFolder {}", configuration.getDestinationFolder());
+            Template template = configurer.getTemplate("post.ftl");
+            File target = new File(configuration.getDestinationFolder(), uri);
+            if (!target.exists()) {
+                target.getParentFile().mkdirs();
+                target.createNewFile();
+            }
+            Writer fileWriter = new FileWriter(target);
+            template.process(fileContents, fileWriter);
+            fileWriter.flush();
+            fileWriter.close();
         } catch (Exception ex) {
             throw new RuntimeException("Failed crawling file: " + sourceFile.getPath() + " " + ex.getMessage(), ex);
         }
