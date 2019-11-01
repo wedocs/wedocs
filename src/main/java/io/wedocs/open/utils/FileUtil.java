@@ -51,6 +51,25 @@ public class FileUtil {
         };
     }
 
+    /**
+     * Ignores directory (and children) if it contains a file named ".jbakeignore".
+     *
+     * @param file {@link File}
+     * @return {@link Boolean} true/false
+     */
+    public static boolean directoryOnlyIfNotIgnored(File file) {
+        boolean accept = false;
+
+        FilenameFilter ignoreFile = new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.equalsIgnoreCase(".jbakeignore");
+            }
+        };
+        accept = file.isDirectory() && (file.listFiles(ignoreFile).length == 0);
+
+        return accept;
+    }
 
     public static boolean isExistingFolder(File f) {
         return null != f && f.exists() && f.isDirectory();

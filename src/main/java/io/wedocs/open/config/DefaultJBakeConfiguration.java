@@ -31,7 +31,16 @@ public class DefaultJBakeConfiguration {
     @Setter
     @Getter
     @Value("${asset.folder}")
-    private String assetFolder;
+    private String assetFolderName;
+
+    /**
+     * 获取静态路径
+     *
+     * @return
+     */
+    public File getAssetFolder() {
+        return new File(new File(System.getProperty("user.dir")), assetFolderName);
+    }
 
     @Setter
     @Getter

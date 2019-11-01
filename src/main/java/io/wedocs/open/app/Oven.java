@@ -30,6 +30,10 @@ public class Oven {
     @Resource
     private Crawler crawler;
 
+    @Resource
+    private Asset asset;
+
+
     /**
      * Checks source path contains required sub-folders (i.e. templates) and setups up variables for them.
      * Creates destination folder if it does not exist.
@@ -53,10 +57,10 @@ public class Oven {
         crawler.crawl(new File(System.getProperty("user.dir"),"docs"));
 
         // copy assets
-        //asset.copy();
-        // asset.copyAssetsFromContent(config.getContentFolder());
+        asset.copy();
+        //asset.copyAssetsFromContent(config.getContentFolder());
 
-        // errors.addAll(asset.getErrors());
+        errors.addAll(asset.getErrors());
 
         LOGGER.info("Baking finished!");
         long end = System.currentTimeMillis();
