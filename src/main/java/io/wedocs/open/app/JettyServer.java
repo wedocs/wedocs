@@ -31,14 +31,14 @@ public class JettyServer {
         connector.setPort(port);
         server.addConnector(connector);
 
-        ResourceHandler resource_handler = new ResourceHandler();
-        resource_handler.setDirectoriesListed(true);
-        resource_handler.setWelcomeFiles(new String[]{"index.html"});
+        ResourceHandler resourceHandler = new ResourceHandler();
+        resourceHandler.setDirectoriesListed(true);
+        resourceHandler.setWelcomeFiles(new String[]{"index.html"});
 
-        resource_handler.setResourceBase(path);
+        resourceHandler.setResourceBase(path);
 
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{resource_handler, new DefaultHandler()});
+        handlers.setHandlers(new Handler[]{resourceHandler, new DefaultHandler()});
         server.setHandler(handlers);
 
         LOGGER.info("Serving out contents of: [{}] on http://localhost:{}/", path, port);
