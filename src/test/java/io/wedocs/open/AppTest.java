@@ -50,13 +50,12 @@ public class AppTest {
         //options.setFrom(ParserEmulationProfile.MARKDOWN);
         //options.set(Parser.EXTENSIONS, Arrays.asList(new Extension[] { TablesExtension.create()}));
 
-        MutableDataHolder options = new MutableDataSet();
-        options.setFrom(ParserEmulationProfile.MARKDOWN);
+        // MutableDataHolder options = new MutableDataSet();
+        // options.setFrom(ParserEmulationProfile.MARKDOWN);
         // enable table parse!
-        options.set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create()));
+        // options.set(Parser.EXTENSIONS, Arrays.asList(TablesExtension.create()));
 
-        // DataHolder options = PegdownOptionsAdapter.flexmarkOptions(Extensions.ANCHORLINKS);
-
+        DataHolder options = PegdownOptionsAdapter.flexmarkOptions(Extensions.AUTOLINKS);
 
         Parser parser = Parser.builder(options).build();
         HtmlRenderer renderer = HtmlRenderer.builder(options).build();
