@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public class Summary {
      */
     @Setter
     @Getter
-    private List<Summary> children;
+    private List<Summary> children = new ArrayList<>();
 
 }
 
