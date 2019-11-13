@@ -26,8 +26,8 @@ public class WedocsApplication implements CommandLineRunner {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final String USAGE_PREFIX = "Usage: jbake";
-    private final String ALT_USAGE_PREFIX = "   or  jbake";
+    private final String USAGE_PREFIX = "Usage: wedocs";
+    private final String ALT_USAGE_PREFIX = "   or  wedocs";
 
     @Resource
     private Oven oven;
