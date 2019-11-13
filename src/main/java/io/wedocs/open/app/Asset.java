@@ -24,7 +24,7 @@ import java.util.List;
 @Component
 public class Asset {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Asset.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private final List<Throwable> errors = new LinkedList<>();
 
     @Resource
@@ -35,7 +35,12 @@ public class Asset {
      * read from configuration
      */
     public void copy() {
-        copy(configuration.getAssetFolder());
+        try {
+            String assetsDestinationPath = configuration.getDestinationFolder().getCanonicalPath() + File.separatorChar + "/assets";
+            copy(configuration.getAssetFolder(), new File(assetsDestinationPath));
+        } catch (IOException e) {
+            LOGGER.error("Failed to copy the asset file.", e);
+        }
     }
 
     /**
@@ -43,14 +48,16 @@ public class Asset {
      *
      * @param path The starting path
      */
-    public void copy(File path) {
+    public void copy(File path, File destination) {
         FileFilter filter = new FileFilter() {
             @Override
             public boolean accept(File file) {
-                return (!configuration.getAssetIgnoreHidden() || !file.isHidden()) && (file.isFile() || FileUtil.directoryOnlyIfNotIgnored(file));
+                return (!configuration.getAssetIgnoreHidden()
+                        || !file.isHidden()) && (file.isFile()
+                        || FileUtil.directoryOnlyIfNotIgnored(file));
             }
         };
-        copy(path, configuration.getDestinationFolder(), filter);
+        copy(path, destination, filter);
     }
 
     /**

@@ -5,15 +5,15 @@
 <meta name="generator" content="wedocs">
 
 <!-- Le styles -->
-<link href="/bootstrap/bootstrap.min.css" rel="stylesheet">
-<link href="/bootstrap/materia/bootstrap.min.css" rel="stylesheet">
-<link href="/css/font-awesome.min.css" rel="stylesheet">
-<link href="/css/simple-line-icons.css" rel="stylesheet">
-<link href="/css/docs.css" rel="stylesheet">
-<link href="/css/highlight.css" rel="stylesheet">
+<link href="/assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="/assets/bootstrap/materia/bootstrap.min.css" rel="stylesheet">
+<link href="/assets/css/font-awesome.min.css" rel="stylesheet">
+<link href="/assets/css/simple-line-icons.css" rel="stylesheet">
+<link href="/assets/css/docs.css" rel="stylesheet">
+<link href="/assets/css/highlight.css" rel="stylesheet">
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
-<script src="/js/html5shiv.min.js"></script>
+<script src="/assets/js/html5shiv.min.js"></script>
 <![endif]-->
 
-<link rel="shortcut icon" href="/favicon.ico">
+<link rel="shortcut icon" href="/assets/favicon.ico">

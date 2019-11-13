@@ -1,7 +1,7 @@
 <nav id="topnavrow" class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="/">
-            <img src="/img/logo.png" height="40"/>
+            <img src="/assets/img/logo.png" height="40"/>
         </a>
 
         <button class="navbar-toggler"
