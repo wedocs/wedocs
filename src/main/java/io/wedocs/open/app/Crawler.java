@@ -3,6 +3,8 @@ package io.wedocs.open.app;
 import io.wedocs.open.config.DefaultJBakeConfiguration;
 import io.wedocs.open.model.Article;
 import io.wedocs.open.utils.FileUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +15,9 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Crawls a file system looking for content.
@@ -27,6 +28,10 @@ import java.util.List;
 public class Crawler {
 
     final Logger LOGGER = LoggerFactory.getLogger(Crawler.class);
+
+    @Setter
+    @Getter
+    private List<Article> articleList = new CopyOnWriteArrayList<>();
 
     @Resource
     private Parser parser;
@@ -40,11 +45,10 @@ public class Crawler {
      *
      * @param path Folder to start from
      */
-    public List<Article> crawl(File path) {
+    public void crawl(File path) {
         // File[] contents = path.listFiles(FileUtil.getFileFilter());
         File[] contents = path.listFiles();
         if (contents != null) {
-            List<Article> articleList = new ArrayList<>(contents.length);
             Arrays.sort(contents);
             for (File sourceFile : contents) {
                 if (sourceFile.isDirectory()) {
@@ -60,9 +64,7 @@ public class Crawler {
                     LOGGER.info("{}", sb);
                 }
             }
-            return articleList;
         }
-        return Collections.emptyList();
     }
 
     private String buildHash(final File sourceFile) {

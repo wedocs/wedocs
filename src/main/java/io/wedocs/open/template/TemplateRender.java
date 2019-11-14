@@ -22,6 +22,8 @@ import java.io.Writer;
 public class TemplateRender {
     final Logger logger = LoggerFactory.getLogger(getClass());
 
+
+
     @Autowired
     private Configuration configurer;
 
@@ -41,7 +43,7 @@ public class TemplateRender {
                 target.createNewFile();
             }
             Writer fileWriter = new FileWriter(target);
-            template.process(article.getContent(), fileWriter);
+            template.process(article, fileWriter);
             fileWriter.flush();
             fileWriter.close();
         } catch (Exception ex) {

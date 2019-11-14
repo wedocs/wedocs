@@ -57,8 +57,8 @@ public class Oven {
         LOGGER.info("Baking has started...");
 
         // process source content
-        List<Article> articleList = crawler.crawl(new File(System.getProperty("user.dir"), "docs"));
-        for (Article article : articleList) {
+        crawler.crawl(new File(System.getProperty("user.dir"), "docs"));
+        for (Article article : crawler.getArticleList()) {
             LOGGER.info("render uri {}", article.getUri());
             templateRender.render(article);
         }
