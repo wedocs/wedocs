@@ -54,7 +54,7 @@ public class Oven {
         LOGGER.info("Baking has started...");
 
         // process source content
-        crawler.crawl(new File(System.getProperty("user.dir"),"docs"));
+        crawler.crawl(new File(System.getProperty("user.dir"), "docs"));
 
         // copy assets
         asset.copy();
@@ -67,6 +67,33 @@ public class Oven {
         LOGGER.info("Baked {} items in {}ms", renderedCount, end - start);
         if (!errors.isEmpty()) {
             LOGGER.error("Failed to bake {} item(s)!", errors.size());
+        }
+    }
+
+    /**
+     * 清除之前的构建目录
+     */
+    public void clean() {
+        File target = new File(System.getProperty("user.dir"), "dist");
+        LOGGER.info("clean target {}", target.getPath());
+        deleteDir(target);
+    }
+
+    /**
+     * 递归删除文件
+     *
+     * @param target
+     */
+    private void deleteDir(File target) {
+        if (target.exists()) {
+            if (target.isDirectory()) {
+                for (File file : target.listFiles()) {
+                    deleteDir(file);
+                }
+                target.delete();
+            } else {  //如果目标文件是目录
+                target.delete();
+            }
         }
     }
 
