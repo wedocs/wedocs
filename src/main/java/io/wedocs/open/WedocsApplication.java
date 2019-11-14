@@ -45,7 +45,8 @@ public class WedocsApplication implements CommandLineRunner {
             return;
         }
         if (res.isBuild()) {
-            oven.build();
+            oven.clean();
+            //oven.build();
             final List<Throwable> errors = oven.getErrors();
             if (!errors.isEmpty()) {
                 final StringBuilder msg = new StringBuilder();

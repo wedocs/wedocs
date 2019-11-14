@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 
+import javax.annotation.Resource;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
@@ -29,6 +30,9 @@ import java.util.List;
 @Component
 public class MarkdownEngine implements ParserEngine {
     final Logger LOGGER = LoggerFactory.getLogger(getClass());
+
+    @Resource
+    private DefaultJBakeConfiguration config;
 
     /**
      * Tests if this markup engine can process the document.
@@ -47,7 +51,7 @@ public class MarkdownEngine implements ParserEngine {
      * @param context the parser context
      */
     public void processBody(final ParserContext context) {
-        List<String> mdExts = context.getConfig().getMarkdownExtensions();
+        List<String> mdExts = config.getMarkdownExtensions();
 
         int extensions = Extensions.NONE;
 
@@ -79,7 +83,7 @@ public class MarkdownEngine implements ParserEngine {
      * @return a map containing all infos. Returning null indicates an error, even if an exception would be better.
      */
     @Override
-    public Page parse(DefaultJBakeConfiguration config, File file) {
+    public Page parse(File file) {
         String fileContent;
         try (InputStream is = new FileInputStream(file)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -88,7 +92,7 @@ public class MarkdownEngine implements ParserEngine {
             LOGGER.error("Error while opening file {}", file, e);
             return null;
         }
-        ParserContext context = new ParserContext(file, fileContent, config);
+        ParserContext context = new ParserContext(file, fileContent);
         // eventually process body using specific engine
         if (validate(context)) {
             processBody(context);

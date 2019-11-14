@@ -8,31 +8,5 @@ import lombok.Setter;
  */
 public class Book {
 
-    @Setter
-    @Getter
-    private String sha1;
 
-    @Setter
-    @Getter
-    private String sourceuri;
-
-    @Setter
-    @Getter
-    private String rendered;
-
-    @Setter
-    @Getter
-    private String cached;
-
-    @Setter
-    @Getter
-    private String status;
-
-    @Setter
-    @Getter
-    private String name;
-
-    @Setter
-    @Getter
-    private String label;
 }

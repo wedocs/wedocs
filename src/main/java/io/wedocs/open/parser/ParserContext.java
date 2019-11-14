@@ -1,6 +1,5 @@
 package io.wedocs.open.parser;
 
-import io.wedocs.open.config.DefaultJBakeConfiguration;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,16 +18,12 @@ public class ParserContext {
     @Getter
     private String body;
 
-    @Getter
-    private final DefaultJBakeConfiguration config;
 
     public ParserContext(
             File file,
-            String fileContent,
-            DefaultJBakeConfiguration config) {
+            String fileContent) {
         this.file = file;
         this.fileContent = fileContent;
-        this.config = config;
     }
 
 }

@@ -1,6 +1,5 @@
 package io.wedocs.open.app;
 
-import io.wedocs.open.config.DefaultJBakeConfiguration;
 import io.wedocs.open.model.Page;
 import io.wedocs.open.parser.MarkdownEngine;
 import org.slf4j.Logger;
@@ -20,9 +19,6 @@ public class Parser {
     private static final Logger LOGGER = LoggerFactory.getLogger(Parser.class);
 
     @Resource
-    private DefaultJBakeConfiguration config;
-
-    @Resource
     private MarkdownEngine markdownEngine;
 
     /**
@@ -37,6 +33,6 @@ public class Parser {
 //            LOGGER.error("Unable to find suitable markup engine for {}", file);
 //            return null;
 //        }
-        return markdownEngine.parse(config, file);
+        return markdownEngine.parse(file);
     }
 }
