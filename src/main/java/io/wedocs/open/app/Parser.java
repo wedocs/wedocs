@@ -27,7 +27,7 @@ public class Parser {
      * @param file File input for parsing
      * @return The contents of the file
      */
-    public Page processFile(File file) {
+    public String processFile(File file) {
 //        ParserEngine engine = Engines.get(FileUtil.fileExt(file));
 //        if (engine == null) {
 //            LOGGER.error("Unable to find suitable markup engine for {}", file);

@@ -2,6 +2,8 @@ package io.wedocs.open.app;
 
 import io.wedocs.open.common.JBakeException;
 import io.wedocs.open.config.DefaultJBakeConfiguration;
+import io.wedocs.open.model.Article;
+import io.wedocs.open.template.TemplateRender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -33,7 +35,8 @@ public class Oven {
     @Resource
     private Asset asset;
 
-
+    @Resource
+    private TemplateRender templateRender;
     /**
      * Checks source path contains required sub-folders (i.e. templates) and setups up variables for them.
      * Creates destination folder if it does not exist.
@@ -54,8 +57,11 @@ public class Oven {
         LOGGER.info("Baking has started...");
 
         // process source content
-        crawler.crawl(new File(System.getProperty("user.dir"), "docs"));
-
+        List<Article> articleList = crawler.crawl(new File(System.getProperty("user.dir"), "docs"));
+        for (Article article : articleList) {
+            LOGGER.info("render uri {}", article.getUri());
+            templateRender.render(article);
+        }
         // copy assets
         asset.copy();
         //asset.copyAssetsFromContent(config.getContentFolder());

@@ -7,7 +7,6 @@ import com.vladsch.flexmark.profiles.pegdown.PegdownOptionsAdapter;
 import com.vladsch.flexmark.util.ast.Document;
 import com.vladsch.flexmark.util.options.DataHolder;
 import io.wedocs.open.config.DefaultJBakeConfiguration;
-import io.wedocs.open.model.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,6 @@ import javax.annotation.Resource;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -83,7 +81,7 @@ public class MarkdownEngine implements ParserEngine {
      * @return a map containing all infos. Returning null indicates an error, even if an exception would be better.
      */
     @Override
-    public Page parse(File file) {
+    public String parse(File file) {
         String fileContent;
         try (InputStream is = new FileInputStream(file)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
@@ -101,7 +99,7 @@ public class MarkdownEngine implements ParserEngine {
             return null;
         }
         // TODO: post parsing plugins to hook in here?
-        return new Page(file, new HashMap<>(), context.getBody(), file.getPath());
+        return context.getBody();
     }
 
     private int extensionFor(String name) {

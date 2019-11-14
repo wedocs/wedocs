@@ -1,24 +1,22 @@
 package io.wedocs.open.app;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import io.wedocs.open.config.DefaultJBakeConfiguration;
-import io.wedocs.open.model.Page;
+import io.wedocs.open.model.Article;
 import io.wedocs.open.utils.FileUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Crawls a file system looking for content.
@@ -36,33 +34,35 @@ public class Crawler {
     @Resource
     private DefaultJBakeConfiguration configuration;
 
-    @Autowired
-    private Configuration configurer;
 
     /**
      * Crawl all files and folders looking for content.
      *
      * @param path Folder to start from
      */
-    public void crawl(File path) {
+    public List<Article> crawl(File path) {
         // File[] contents = path.listFiles(FileUtil.getFileFilter());
         File[] contents = path.listFiles();
         if (contents != null) {
+            List<Article> articleList = new ArrayList<>(contents.length);
             Arrays.sort(contents);
             for (File sourceFile : contents) {
+                if (sourceFile.isDirectory()) {
+                    crawl(sourceFile);
+                }
                 if (sourceFile.isFile()) {
                     StringBuilder sb = new StringBuilder();
                     sb.append("Processing [").append(sourceFile.getPath()).append("]... ");
                     String sha1 = buildHash(sourceFile);
                     String uri = buildURI(sourceFile);
-                    crawlSourceFile(sourceFile, sha1, uri);
+                    Article article = crawlSourceFile(sha1, sourceFile, uri);
+                    articleList.add(article);
                     LOGGER.info("{}", sb);
                 }
-                if (sourceFile.isDirectory()) {
-                    crawl(sourceFile);
-                }
             }
+            return articleList;
         }
+        return Collections.emptyList();
     }
 
     private String buildHash(final File sourceFile) {
@@ -135,24 +135,8 @@ public class Crawler {
                 && uri.startsWith(noExtensionUriPrefix);
     }
 
-    private void crawlSourceFile(final File sourceFile, final String sha1, final String uri) {
-        try {
-            Page fileContents = parser.processFile(sourceFile);
-            // 解析完毕 根据模板生成文件
-            LOGGER.info("uri {}", uri);
-            LOGGER.info("getDestinationFolder {}", configuration.getDestinationFolder());
-            Template template = configurer.getTemplate("post.ftl");
-            File target = new File(configuration.getDestinationFolder(), uri);
-            if (!target.exists()) {
-                target.getParentFile().mkdirs();
-                target.createNewFile();
-            }
-            Writer fileWriter = new FileWriter(target);
-            template.process(fileContents, fileWriter);
-            fileWriter.flush();
-            fileWriter.close();
-        } catch (Exception ex) {
-            throw new RuntimeException("Failed crawling file: " + sourceFile.getPath() + " " + ex.getMessage(), ex);
-        }
+    private Article crawlSourceFile(final String sha1, final File sourceFile, final String uri) {
+        String fileContents = parser.processFile(sourceFile);
+        return new Article(sha1, sourceFile, uri, fileContents);
     }
 }

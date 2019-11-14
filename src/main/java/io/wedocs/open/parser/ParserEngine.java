@@ -1,6 +1,5 @@
 package io.wedocs.open.parser;
 
-import io.wedocs.open.model.Page;
 
 import java.io.File;
 
@@ -15,5 +14,5 @@ public interface ParserEngine {
      * @param file The file to be parsed
      * @return A model representation of the given file
      */
-    Page parse(File file);
+    String parse(File file);
 }

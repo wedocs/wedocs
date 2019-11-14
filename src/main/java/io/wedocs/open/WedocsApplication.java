@@ -45,8 +45,10 @@ public class WedocsApplication implements CommandLineRunner {
             return;
         }
         if (res.isBuild()) {
+            // 清除本地的dist文件
             oven.clean();
-            //oven.build();
+            // 开始生成文档
+            oven.build();
             final List<Throwable> errors = oven.getErrors();
             if (!errors.isEmpty()) {
                 final StringBuilder msg = new StringBuilder();

@@ -18,9 +18,14 @@ public class Article {
     @Getter
     private String sha1;
 
+
     @Setter
     @Getter
     private File file;
+
+    @Setter
+    @Getter
+    private String uri;
 
     /**
      * Content of the page
@@ -29,16 +34,11 @@ public class Article {
     @Getter
     private String content;
 
-    /**
-     * Direction of the text
-     */
-    @Setter
-    @Getter
-    private String dir;
 
-    public Article(File file, String content, String dir) {
+    public Article(String sha1, File file, String uri, String content) {
+        this.sha1 = sha1;
         this.file = file;
+        this.uri = uri;
         this.content = content;
-        this.dir = dir;
     }
 }
