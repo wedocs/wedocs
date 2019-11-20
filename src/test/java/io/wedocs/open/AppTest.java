@@ -74,35 +74,7 @@ public class AppTest {
 
     @Test
     public void builder() throws IOException {
-        MutableDataSet options = new MutableDataSet();
-        options.setFrom(ParserEmulationProfile.MARKDOWN);
-        options.set(Parser.HTML_BLOCK_PARSER, false);
-        //options.set(Parser.EXTENSIONS, Arrays.asList(WikiLinkExtension.create()));
-        Parser parser = Parser.builder(options).build();
-        HtmlRenderer renderer = HtmlRenderer.builder(options).build();
-        String data = FileUtils.readFileToString(new ClassPathResource("SUMMARY.md").getFile(), StandardCharsets.UTF_8);
-        Node document = parser.parse(data);
-        String html = renderer.render(document);
-        Document doc = Jsoup.parse(html);
-        Element element = doc.selectFirst("body>ul");
-        Summary summary = new Summary();
-        summary.setLevel(0);
-        parse(element, summary);
-        logger.info("{}", summary);
+
     }
 
-    private void parse(Element element, Summary summary) {
-        for (Element liElement : element.select(">li")) {
-            String title = liElement.selectFirst("a").text();
-            Summary summaryItem = new Summary();
-            summaryItem.setTitle(title);
-            summaryItem.setLevel(summary.getLevel() + 1);
-            logger.info("{}", title);
-            summary.getChildren().add(summaryItem);
-            Element children = liElement.selectFirst("ul");
-            if (children != null) {
-                parse(children, summaryItem);
-            }
-        }
-    }
 }
