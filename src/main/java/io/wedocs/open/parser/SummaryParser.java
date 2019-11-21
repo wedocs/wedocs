@@ -60,31 +60,36 @@ public class SummaryParser {
     /**
      * 解析gitbook summary的子元素
      * <ul>
-     *     <li>
-     *         <p><a href="https://github.com">前言</a></p>
-     *     </li>
-     *     <li>
-     *         <p><a href="https://github.com">第1章 介绍</a></p>
-     *         <ul>
-     *             <li><a href="https://github.com">1.1 LoRaWAN Classes</a></li>
-     *             <li><a href="https://github.com">1.2 文档约定</a></li>
-     *             <li><a href="https://github.com">1.3 介绍</a>
-     *                 <ul>
-     *                     <li><a href="https://github.com">1.3.1 LoRaWAN Classes</a></li>
-     *                     <li><a href="https://github.com">1.3.2 文档约定</a></li>
-     *                     Disconnected from the target VM, address: '127.0.0.1:52018', transport: 'socket'
-     *                 </ul>
-     *             </li>
-     *         </ul>
-     *     </li>
+     * <li>
+     * <p><a href="https://github.com">前言</a></p>
+     * </li>
+     * <li>
+     * <p><a href="https://github.com">第1章 介绍</a></p>
+     * <ul>
+     * <li><a href="https://github.com">1.1 LoRaWAN Classes</a></li>
+     * <li><a href="https://github.com">1.2 文档约定</a></li>
+     * <li><a href="https://github.com">1.3 介绍</a>
+     * <ul>
+     * <li><a href="https://github.com">1.3.1 LoRaWAN Classes</a></li>
+     * <li><a href="https://github.com">1.3.2 文档约定</a></li>
+     * Disconnected from the target VM, address: '127.0.0.1:52018', transport: 'socket'
      * </ul>
+     * </li>
+     * </ul>
+     * </li>
+     * </ul>
+     *
      * @param element
      * @param summary
      */
     private void parseItems(Element element, Summary summary) {
         for (Element liElement : element.select(">li")) {
-            String title = liElement.selectFirst("a").text();
+            Element aElement = liElement.selectFirst("a");
+            String href = aElement.attr("href");
+            String title = aElement.text();
+
             Summary summaryItem = new Summary();
+            summaryItem.setPath(href);
             summaryItem.setTitle(title);
             summaryItem.setLevel(summary.getLevel() + 1);
 
